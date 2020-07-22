@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".HomeActivity">
+    android:gravity="center_horizontal">
+
+    <Button android:id="@+id/btnOne"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="EASY MODE"
+        android:layout_marginTop="100dip"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"/>
+
+    <Button android:id="@+id/btnTwo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="MEDIUM MODE"
+        android:layout_marginTop="100dip"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"/>
+
+    <Button
+        android:id="@+id/btnThree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dip"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="25dip"
+        android:text="Piano Game" />
+
+    <Button
+        android:id="@+id/btnFour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dip"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="25dip"
+        android:text="Mary had a little lamb" />
+
+</LinearLayout>

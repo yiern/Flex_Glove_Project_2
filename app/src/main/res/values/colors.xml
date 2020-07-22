@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="textColor">#000000</color>
+    <color name="errorColor">#FFFFFF</color>
+    <color name = "lightGrey">#E8EBEC</color>
+    <color name="White">#FFFFFF</color>
+    <color name="transparent"> #0000</color>
+    <color name="C_Block">#E53E3E</color>
+    <color name="D_Block">#ED8936</color>
+    <color name="E_Block">#ECC94B</color>
+    <color name="F_Block">#38A169</color>
+    <color name="G_Block">#3182CE</color>
+</resources>
