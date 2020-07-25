@@ -56,7 +56,7 @@ public class BluetoothDataService extends Service {
         mDevice = intent.getExtras().getParcelable(BluetoothManagementActivity.DEVICE_EXTRA);
         mDeviceUUID = UUID.fromString(intent.getExtras().getString(BluetoothManagementActivity.DEVICE_UUID));
         mMaxChars = intent.getExtras().getInt(BluetoothManagementActivity.BUFFER_SIZE);
-//
+
         Log.d("BT SERVICE", "SERVICE STARTED");
         new ConnectBT().execute();
         isRunning = true;

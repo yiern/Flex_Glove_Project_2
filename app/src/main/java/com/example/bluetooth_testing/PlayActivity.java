@@ -1217,7 +1217,7 @@ public class PlayActivity extends Activity{
                         List<String> SensorDataList = Arrays.asList(receivedDataString.split(","));
                         Log.d(TAG, String.valueOf(SensorDataList.size()));
                         if(SensorDataList.size() > 5) {
-                            mTxtReceive.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()) + "\nIndex : " + SensorDataList.get(0) + "\nMiddle : " + SensorDataList.get(2) + "\nRing : " + SensorDataList.get(4) + "\nPinky : " + SensorDataList.get(5) + "\n\n");//display the degree of both sensors index(0) && index(2) == Degree and index(1)&& index(3) == Ohms
+                            mTxtReceive.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()) + "\nThumb: "+ SensorDataList.get(0) +"\nIndex : " + SensorDataList.get(1) + "\nMiddle : " + SensorDataList.get(2) + "\nRing : " + SensorDataList.get(3) + "\nPinky : " + SensorDataList.get(4) + "\n\n");//display the degree of both sensors index(0) && index(2) == Degree and index(1)&& index(3) == Ohms
 
                             int txtLength = mTxtReceive.getEditableText().length();
                             if (txtLength > mMaxChars) {

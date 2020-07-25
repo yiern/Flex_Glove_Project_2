@@ -14,15 +14,8 @@
         android:layout_marginTop="20dp">
 
         <Button
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="90dp"
-            android:text="Search"/>
-
-        <Button
             android:id="@+id/connect"
-            android:layout_width="wrap_content"
+            android:layout_width="306dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
             android:text="Connect" />
@@ -30,11 +23,17 @@
 
 
     </LinearLayout>
+
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="516dp"></ListView>
+
+    <Button
+        android:id="@+id/bt_bt5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BT5" />
 
 
 </LinearLayout>
