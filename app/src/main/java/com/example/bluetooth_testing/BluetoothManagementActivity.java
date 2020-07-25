@@ -48,9 +48,9 @@ public class BluetoothManagementActivity extends Activity
     private static final String DEVICE_LIST_SELECTED = "com.example.bluetooth_testing.devicelistselected";
     public static final String BUFFER_SIZE = "com.example.bluetooth_testing.buffersize";
     private static final String TAG = "BluetoothManagementA";
-    private int user_id_2,bt5_flag;
-    Button bt_5;
-    BluetoothDevice bt5_device;
+    private int user_id_2, left_hand_flag,right_hand_flag;
+    Button left_hand_button,right_hand_button;
+    BluetoothDevice Left_hand_MAC,right_hand_MAC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,8 +60,10 @@ public class BluetoothManagementActivity extends Activity
 
 
         connect = findViewById(R.id.connect);
-        bt_5 = findViewById(R.id.bt_bt5);
-        bt_5.setEnabled(false);
+        left_hand_button = findViewById(R.id.bt_bt4);
+        left_hand_button.setEnabled(false);
+        right_hand_button = findViewById(R.id.button7);
+        right_hand_button.setEnabled(false);
         connect.setEnabled(false);
 
         listView = findViewById(R.id.listview);
@@ -143,20 +145,65 @@ public class BluetoothManagementActivity extends Activity
             }
         });
 
-        bt_5.setOnClickListener(new View.OnClickListener() {
+        left_hand_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = getIntent();
                 Bundle b = intent.getExtras();
+                String action = b.getString(HomeActivity.INTENT_ACTION);
+
+                BluetoothDevice device = ((MyAdapter) (listView.getAdapter())).getSelectedItem();
+
                 Intent newIntent;
-                newIntent = new Intent(getApplicationContext(), PlayActivity.class);
-                newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
-                newIntent.putExtra("user_id",user_id);
-                newIntent.putExtra(DEVICE_EXTRA, bt5_device);
+                //Determine to redirect to which page
+                //Monitor or Play
+                if(action.equals("Monitor"))
+                {
+                    newIntent = new Intent(getApplicationContext(), MonitoringScreen.class);
+                }
+                else
+                {
+                    newIntent = new Intent(getApplicationContext(), PlayActivity.class);
+                    newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
+                    newIntent.putExtra("user_id",user_id);
+                }
+
+                newIntent.putExtra(DEVICE_EXTRA, Left_hand_MAC);
                 newIntent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
                 newIntent.putExtra(BUFFER_SIZE, mBufferSize);
                 finish();//Kill current activity
                 startActivity(newIntent);
+            }
+        });
+        right_hand_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getIntent();
+                Bundle b = intent.getExtras();
+                String action = b.getString(HomeActivity.INTENT_ACTION);
+
+                BluetoothDevice device = ((MyAdapter) (listView.getAdapter())).getSelectedItem();
+
+                Intent newIntent;
+                //Determine to redirect to which page
+                //Monitor or Play
+                if(action.equals("Monitor"))
+                {
+                    newIntent = new Intent(getApplicationContext(), MonitoringScreen.class);
+                }
+                else
+                {
+                    newIntent = new Intent(getApplicationContext(), PlayActivity.class);
+                    newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
+                    newIntent.putExtra("user_id",user_id);
+                }
+
+                newIntent.putExtra(DEVICE_EXTRA, right_hand_MAC);
+                newIntent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
+                newIntent.putExtra(BUFFER_SIZE, mBufferSize);
+                finish();//Kill current activity
+                startActivity(newIntent);
+
             }
         });
     }
@@ -263,9 +310,14 @@ public class BluetoothManagementActivity extends Activity
             {
                 if(device.getName().equals("BT04-A"))
                 {
-                    bt5_flag =1;
-                    bt5_device = device;
-                    Log.d(TAG, "doInBackground: is this correct: "+ device);
+                    left_hand_flag =1;
+                    Left_hand_MAC = device;
+
+                }
+                if(device.getName().equals("BT5"))
+                {
+                    right_hand_flag = 1;
+                    right_hand_MAC = device;
                 }
                 listDevices.add(device);
             }
@@ -280,9 +332,13 @@ public class BluetoothManagementActivity extends Activity
             {
                 MyAdapter adapter = (MyAdapter) listView.getAdapter();
                 adapter.replaceItems(listDevices);
-                if(bt5_flag==1)
+                if(left_hand_flag ==1)
                 {
-                    bt_5.setEnabled(true);
+                    left_hand_button.setEnabled(true);
+                }
+                if (right_hand_flag == 1)
+                {
+                    right_hand_button.setEnabled(true);
                 }
             }
             else

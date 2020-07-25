@@ -27,13 +27,19 @@
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="516dp"></ListView>
+        android:layout_height="312dp"></ListView>
 
     <Button
-        android:id="@+id/bt_bt5"
+        android:id="@+id/bt_bt4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BT5" />
+        android:text="Left Hand" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Right Hand" />
 
 
 </LinearLayout>
