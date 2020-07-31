@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import androidx.annotation.Nullable;
@@ -47,17 +49,17 @@ public class BluetoothDataService extends Service {
     public void onCreate()
     {
         super.onCreate();
-        Log.d("BT SERVICE", "SERVICE CREATED");
+        Log.d("BT SERVICE", "SERVICE CREATED"+ mDevice);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        mDevice = intent.getExtras().getParcelable(BluetoothManagementActivity.DEVICE_EXTRA);
+        mDevice = Objects.requireNonNull(intent.getExtras()).getParcelable(BluetoothManagementActivity.DEVICE_EXTRA);
         mDeviceUUID = UUID.fromString(intent.getExtras().getString(BluetoothManagementActivity.DEVICE_UUID));
         mMaxChars = intent.getExtras().getInt(BluetoothManagementActivity.BUFFER_SIZE);
 
-        Log.d("BT SERVICE", "SERVICE STARTED");
+        Log.d("BT SERVICE", "SERVICE STARTED" + mDevice);
         new ConnectBT().execute();
         isRunning = true;
         return super.onStartCommand(intent, flags, startId);

@@ -51,7 +51,7 @@ public class BluetoothManagementActivity extends Activity
     private int user_id_2, left_hand_flag,right_hand_flag;
     Button left_hand_button,right_hand_button;
     BluetoothDevice Left_hand_MAC,right_hand_MAC;
-
+    String handOrientation;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -152,7 +152,7 @@ public class BluetoothManagementActivity extends Activity
                 Bundle b = intent.getExtras();
                 String action = b.getString(HomeActivity.INTENT_ACTION);
 
-                BluetoothDevice device = ((MyAdapter) (listView.getAdapter())).getSelectedItem();
+
 
                 Intent newIntent;
                 //Determine to redirect to which page
@@ -167,7 +167,7 @@ public class BluetoothManagementActivity extends Activity
                     newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
                     newIntent.putExtra("user_id",user_id);
                 }
-
+                newIntent.putExtra("hand orientation",handOrientation);
                 newIntent.putExtra(DEVICE_EXTRA, Left_hand_MAC);
                 newIntent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
                 newIntent.putExtra(BUFFER_SIZE, mBufferSize);
@@ -197,7 +197,7 @@ public class BluetoothManagementActivity extends Activity
                     newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
                     newIntent.putExtra("user_id",user_id);
                 }
-
+                newIntent.putExtra("hand orientation",handOrientation);
                 newIntent.putExtra(DEVICE_EXTRA, right_hand_MAC);
                 newIntent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
                 newIntent.putExtra(BUFFER_SIZE, mBufferSize);
@@ -312,12 +312,14 @@ public class BluetoothManagementActivity extends Activity
                 {
                     left_hand_flag =1;
                     Left_hand_MAC = device;
+                    handOrientation = "L";
 
                 }
                 if(device.getName().equals("BT5"))
                 {
                     right_hand_flag = 1;
                     right_hand_MAC = device;
+                    handOrientation = "R";
                 }
                 listDevices.add(device);
             }
@@ -335,6 +337,7 @@ public class BluetoothManagementActivity extends Activity
                 if(left_hand_flag ==1)
                 {
                     left_hand_button.setEnabled(true);
+
                 }
                 if (right_hand_flag == 1)
                 {

@@ -10,9 +10,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
+
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.media.SoundPool.Builder;
@@ -101,9 +101,8 @@ public class PlayActivity extends Activity{
     Long StartTime;
     Long StartTime_nano = System.nanoTime();
     CountDownTimer timer, timer_piano;
-    SoundPool sp;
     int c_flag, d_flag, e_flag, f_flag, g_flag, timer_flag;
-
+    String hand_orientation;
     String[] melody_MaryHadALittleLamb = {"E", "D", "C", "D", "E", "E", "E", "D", "D", "D", "E", "E", "E","E","D","C","D","E","E","E","E","D","D","E","D","C"};
     private boolean finish_game, isFailed;
 
@@ -121,10 +120,12 @@ public class PlayActivity extends Activity{
         mDevice = b.getParcelable(BluetoothManagementActivity.DEVICE_EXTRA);
         mDeviceUUID = UUID.fromString(b.getString(BluetoothManagementActivity.DEVICE_UUID));
         mMaxChars = b.getInt(BluetoothManagementActivity.BUFFER_SIZE);
+        hand_orientation = b.getString("hand orientation");
+        Log.d(TAG, "onCreate: what device?"+ mDevice);
 
         Bundle extras = getIntent().getExtras();
         user_id = extras.getInt("user_id");
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         difficulty_level = Integer.parseInt(b.getString(LevelSelectionActivity.DIFFICULTY));
 
@@ -136,7 +137,7 @@ public class PlayActivity extends Activity{
             setContentView(R.layout.activity_piano);
 
 
-            mTxtReceive = (TextView) findViewById(R.id.txtReceive);
+            mTxtReceive = findViewById(R.id.txtReceive);
             thumb = (Button) findViewById(R.id.button);
             index = (Button) findViewById(R.id.button2);
             middle = (Button) findViewById(R.id.button3);
@@ -149,11 +150,11 @@ public class PlayActivity extends Activity{
 
             scrollView = (ScrollView) findViewById(R.id.viewScroll);
 
-            thumb.setBackgroundColor(R.color.C_Block);
-            index.setBackgroundColor(R.color.D_Block);
-            middle.setBackgroundColor(R.color.E_Block);
-            ring.setBackgroundColor(R.color.F_Block);
-            pinky.setBackgroundColor(R.color.G_Block);
+            thumb.setBackgroundResource(R.color.C_Block);
+            index.setBackgroundResource(R.color.D_Block);
+            middle.setBackgroundResource(R.color.E_Block);
+            ring.setBackgroundResource(R.color.F_Block);
+            pinky.setBackgroundResource(R.color.G_Block);
             isPlaying = false;
             finish_game = false;
 
@@ -207,7 +208,7 @@ public class PlayActivity extends Activity{
             {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    startButton.setText("Seconds Remaining: " + millisUntilFinished/1000);
+                    startButton.setText("Seconds Remaining: " + millisUntilFinished/1000 + " Times Failed" + failed_attempts);
 
                 }
 
@@ -216,11 +217,8 @@ public class PlayActivity extends Activity{
                    Toast.makeText(PlayActivity.this,"timer finished",Toast.LENGTH_SHORT).show();
                     failed_attempts++;
                     i ++;
+                    timer_piano.cancel();
                     timer_piano.start();
-
-
-
-
                 }
             };
 
@@ -265,6 +263,7 @@ public class PlayActivity extends Activity{
                                     currentLevel = 1;
                                     populateResources();
                                     startButton.setEnabled(true);
+                                    startButton.setText("Restart");
                                     dialog.dismiss();
 
                                 }
@@ -408,7 +407,6 @@ public class PlayActivity extends Activity{
         bluetoothDataServiceIntent.putExtra(BluetoothManagementActivity.DEVICE_UUID, mDeviceUUID.toString());
         bluetoothDataServiceIntent.putExtra(BluetoothManagementActivity.DEVICE_EXTRA, mDevice);
         bluetoothDataServiceIntent.putExtra(BluetoothManagementActivity.BUFFER_SIZE, mMaxChars);
-
         if(!BluetoothDataService.isRunning())
         {
             progressDialog = ProgressDialog.show(PlayActivity.this, "Hold on", "Connecting");//References - http://stackoverflow.com/a/11130220/1287554
@@ -437,7 +435,7 @@ public class PlayActivity extends Activity{
 
 
     //Main logic
-    @SuppressLint("ResourceAsColor")
+
     private boolean gameLogic(String sensorData) {
         List<String> SensorDataList = Arrays.asList(sensorData.split(","));
 
@@ -452,13 +450,8 @@ public class PlayActivity extends Activity{
 
             Double receivedDegree;
 
-            //Sensor 1
-           // if (requiredSensor == 1) {
-           //     receivedDegree = Double.valueOf(SensorDataList.get(0));
-           // } else //Sensor 2
-           // {
-           //     receivedDegree = Double.valueOf(SensorDataList.get(2));
-           // }
+
+            /*
             if(currentLevel == 1)
             {
                 receivedDegree = Double.valueOf(SensorDataList.get(0));
@@ -473,7 +466,7 @@ public class PlayActivity extends Activity{
                     success = true;
                 }
             }
-            else if(currentLevel==3)
+            else if(currentLevel == 3)
             {
                 receivedDegree = Double.valueOf(SensorDataList.get(2));
                 if (receivedDegree >= requiredDegree) {
@@ -494,7 +487,12 @@ public class PlayActivity extends Activity{
                     success = true;
                 }
             }
+            */
 
+            receivedDegree = Double.valueOf(SensorDataList.get(currentLevel-1));
+            if(receivedDegree > requiredDegree){
+                success= true;
+            }
             //Compare the received degree and the configured degree for current level
 
         }
@@ -515,13 +513,13 @@ public class PlayActivity extends Activity{
 
             //Compare the received degree and the configured degree for current level
             //Compare data from two sensor
-            if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
-                success = true;
-            }
+           // if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
+            //    success = true;
+            //}
             if(currentLevel == 1)
             {
                 receivedDegree1 = Double.valueOf(SensorDataList.get(0));
-                receivedDegree2 = Double.valueOf(SensorDataList.get(0));
+                receivedDegree2 = Double.valueOf(SensorDataList.get(1));
                 if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
                     success = true;
                 }
@@ -537,7 +535,7 @@ public class PlayActivity extends Activity{
             else if(currentLevel == 3)
             {
                 receivedDegree1 = Double.valueOf(SensorDataList.get(0));
-                receivedDegree2 = Double.valueOf(SensorDataList.get(0));
+                receivedDegree2 = Double.valueOf(SensorDataList.get(3));
                 if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
                     success = true;
                 }
@@ -564,8 +562,23 @@ public class PlayActivity extends Activity{
                 Double ring_reading = Double.valueOf(SensorDataList.get(3));
                 Double pinky_reading = Double.valueOf(SensorDataList.get(4));
 
-
                 if (thumb_reading >= requiredDegree)
+                {
+                    thumb.setBackgroundColor(Color.BLUE);
+                    if(c_flag == 0) {
+                        c_note.start();
+                        c_flag = 1;
+                    }
+                    else
+                        Log.d(TAG, "d flag raised");
+                }
+                else //(index_reading <= requiredDegree)
+                {
+                    thumb.setBackgroundResource(R.color.C_Block);
+                    c_note.release();
+                    c_flag=0;
+                }
+                if (index_reading >= requiredDegree)
                 {
                     index.setBackgroundColor(Color.BLUE);
                     if(d_flag == 0) {
@@ -577,7 +590,7 @@ public class PlayActivity extends Activity{
                 }
                 else //(index_reading <= requiredDegree)
                 {
-                    index.setBackgroundColor(R.color.D_Block);
+                    index.setBackgroundResource(R.color.D_Block);
                     d_note.release();
                     d_flag=0;
                 }
@@ -591,7 +604,7 @@ public class PlayActivity extends Activity{
                 }
                 else // (middle_reading <= requiredDegree)
                 {
-                    middle.setBackgroundColor(R.color.E_Block);
+                    middle.setBackgroundResource(R.color.E_Block);
                     e_note.release();
                     e_flag = 0;
                 }
@@ -606,7 +619,7 @@ public class PlayActivity extends Activity{
                 }
                 else // (ring_reading <= requiredDegree)
                 {
-                    ring.setBackgroundColor(R.color.F_Block);
+                    ring.setBackgroundResource(R.color.F_Block);
                     f_note.release();
                     f_flag = 0;
                 }
@@ -621,7 +634,7 @@ public class PlayActivity extends Activity{
                 }
                 else// (pinky_reading <= requiredDegree)
                 {
-                    pinky.setBackgroundColor(R.color.G_Block);
+                    pinky.setBackgroundResource(R.color.G_Block);
                     g_note.release();
                     g_flag = 0;
                 }
@@ -681,7 +694,7 @@ public class PlayActivity extends Activity{
                         }
                         timer_piano.cancel();
 
-                        thumb.setBackgroundColor(R.color.C_Block);
+                        thumb.setBackgroundResource(R.color.C_Block);
                         i++;
                         score++;
                         c_flag = 0;
@@ -690,7 +703,7 @@ public class PlayActivity extends Activity{
 
                 }
 
-                if (tone == "D")
+                if (tone.equals("D"))
                 {
                     if(timer_flag == 0) {
                         timer_piano.start();
@@ -707,7 +720,7 @@ public class PlayActivity extends Activity{
                             d_flag=1;
                         }
 
-                        index.setBackgroundColor(R.color.D_Block);
+                        index.setBackgroundResource(R.color.D_Block);
 
 
                             i++;
@@ -730,7 +743,7 @@ public class PlayActivity extends Activity{
                         timer_flag = 0;
                         timer_piano.cancel();
 
-                        middle.setBackgroundColor(R.color.E_Block);
+                        middle.setBackgroundResource(R.color.E_Block);
                         if(e_flag == 0) {
                             mp.start();
                             e_flag=1;
@@ -759,7 +772,7 @@ public class PlayActivity extends Activity{
                             f_flag=1;
                         }
 
-                        ring.setBackgroundColor(Color.BLACK);
+                        ring.setBackgroundResource(R.color.F_Block);
 
 
                             i++;
@@ -785,7 +798,7 @@ public class PlayActivity extends Activity{
                             mp.start();
                             g_flag=1;
                         }
-                        pinky.setBackgroundColor(Color.WHITE);
+                        pinky.setBackgroundResource(R.color.G_Block);
 
 
                             i++;
@@ -938,7 +951,7 @@ public class PlayActivity extends Activity{
                         .setCancelable(false)
                         .create();
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    private static final int AUTO_DISMISS_MILLIS = 5000;
+                    private static final int AUTO_DISMISS_MILLIS = 3000;
                     @Override
                     public void onShow(final DialogInterface dialog) {
                         new CountDownTimer(AUTO_DISMISS_MILLIS, 1000) {
@@ -976,6 +989,7 @@ public class PlayActivity extends Activity{
             dataJson.put("TimeSpent", diff);
             dataJson.put("user_id", user_id);
             dataJson.put("score",score);
+            dataJson.put("hand",hand_orientation);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1017,6 +1031,7 @@ public class PlayActivity extends Activity{
         {
             dataJson.put("TimeSpent", diff_in_sec);
             dataJson.put("user_id", user_id);
+          //  dataJson.put("hand",hand_orientation);
         }
         catch(JSONException e)
         {
@@ -1067,6 +1082,7 @@ public class PlayActivity extends Activity{
             dataJson.put("timespent", timespent);
             dataJson.put("user_id",user_id);
             dataJson.put("level",level);
+          //  dataJson.put("hand",hand_orientation);
         }
         catch(JSONException e)
         {
@@ -1216,8 +1232,8 @@ public class PlayActivity extends Activity{
                     {
                         List<String> SensorDataList = Arrays.asList(receivedDataString.split(","));
                         Log.d(TAG, String.valueOf(SensorDataList.size()));
-                        if(SensorDataList.size() > 5) {
-                            mTxtReceive.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()) + "\nThumb: "+ SensorDataList.get(0) +"\nIndex : " + SensorDataList.get(1) + "\nMiddle : " + SensorDataList.get(2) + "\nRing : " + SensorDataList.get(3) + "\nPinky : " + SensorDataList.get(4) + "\n\n");//display the degree of both sensors index(0) && index(2) == Degree and index(1)&& index(3) == Ohms
+                        if(SensorDataList.size() == 5) {
+                            mTxtReceive.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()) + "\nThumb: " + SensorDataList.get(0) + "\nIndex : " + SensorDataList.get(1) + "\nMiddle : " + SensorDataList.get(2) + "\nRing : " + SensorDataList.get(3) + "\nPinky : " + SensorDataList.get(4) + "\n\n");//display the degree of both sensors index(0) && index(2) == Degree and index(1)&& index(3) == Ohms
 
                             int txtLength = mTxtReceive.getEditableText().length();
                             if (txtLength > mMaxChars) {
@@ -1233,8 +1249,8 @@ public class PlayActivity extends Activity{
                             });
                             gameLogic(receivedDataString);
                         }
-                        else{
-                            Log.d(TAG, "run: Sensor size too small");
+                        else {
+                            Log.d(TAG, "run: sensor size too small: "+SensorDataList.size());
                         }
                     }
                 });
