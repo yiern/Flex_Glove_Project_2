@@ -38,6 +38,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -509,13 +510,13 @@ public class PlayActivity extends Activity{
             Double receivedDegree2;
 
             receivedDegree1 = Double.valueOf(SensorDataList.get(0));
-            receivedDegree2 = Double.valueOf(SensorDataList.get(2));
+            receivedDegree2 = Double.valueOf(SensorDataList.get(currentLevel-1));
+            if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
+                success = true;
+            }
 
-            //Compare the received degree and the configured degree for current level
-            //Compare data from two sensor
-           // if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
-            //    success = true;
-            //}
+
+/*
             if(currentLevel == 1)
             {
                 receivedDegree1 = Double.valueOf(SensorDataList.get(0));
@@ -540,7 +541,11 @@ public class PlayActivity extends Activity{
                     success = true;
                 }
             }
+
+ */
         }
+
+
         //piano free play
         else if (difficulty_level == 3)
         {
@@ -674,7 +679,7 @@ public class PlayActivity extends Activity{
 
             tone = melody_MaryHadALittleLamb[i];
             if( i < melody_MaryHadALittleLamb.length ) {
-                title.setText("Mary had a little lamp \n " + "Score: " + score);
+                title.setText("Mary had a little lamp \n " + "Score: " + score +" \n" +" Times Failed: " + failed_attempts);
 
                 if (tone.equals("C"))
                 {
