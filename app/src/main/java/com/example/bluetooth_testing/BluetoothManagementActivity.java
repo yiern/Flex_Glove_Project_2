@@ -135,12 +135,12 @@ public class BluetoothManagementActivity extends Activity
                     newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
                     newIntent.putExtra("user_id",user_id);
                 }
-                newIntent.putExtra("hand orientation",handOrientation);
+                newIntent.putExtra("hand orientation","L");
                 newIntent.putExtra(DEVICE_EXTRA, Left_hand_MAC);
                 newIntent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
                 newIntent.putExtra(BUFFER_SIZE, mBufferSize);
-                finish();//Kill current activity
                 startActivity(newIntent);
+                finish();//Kill current activity
             }
         });
         right_hand_button.setOnClickListener(new View.OnClickListener() {
@@ -165,12 +165,12 @@ public class BluetoothManagementActivity extends Activity
                     newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
                     newIntent.putExtra("user_id",user_id);
                 }
-                newIntent.putExtra("hand orientation",handOrientation);
+                newIntent.putExtra("hand orientation","R");
                 newIntent.putExtra(DEVICE_EXTRA, right_hand_MAC);
                 newIntent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
                 newIntent.putExtra(BUFFER_SIZE, mBufferSize);
-                finish();//Kill current activity
                 startActivity(newIntent);
+                finish();//Kill current activity
 
             }
         });
