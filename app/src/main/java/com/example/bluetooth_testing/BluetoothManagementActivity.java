@@ -59,14 +59,14 @@ public class BluetoothManagementActivity extends Activity
         setContentView(R.layout.activity_main);
 
 
-        connect = findViewById(R.id.connect);
+        //connect = findViewById(R.id.connect);
         left_hand_button = findViewById(R.id.bt_bt4);
         left_hand_button.setEnabled(false);
         right_hand_button = findViewById(R.id.button7);
         right_hand_button.setEnabled(false);
-        connect.setEnabled(false);
 
-        listView = findViewById(R.id.listview);
+
+       // listView = findViewById(R.id.listview);
 
         Bundle extras = getIntent().getExtras();
         final int user_id = extras.getInt("user_id");
@@ -77,24 +77,23 @@ public class BluetoothManagementActivity extends Activity
             ArrayList<BluetoothDevice> list = savedInstanceState.getParcelableArrayList(DEVICE_LIST);
             if (list != null)
             {
-                initList(list);
-                MyAdapter adapter = (MyAdapter) listView.getAdapter();
+
                 int selectedIndex = savedInstanceState.getInt(DEVICE_LIST_SELECTED);
                 if (selectedIndex != -1)
                 {
-                    adapter.setSelectedIndex(selectedIndex);
-                    connect.setEnabled(true);
+
+
                 }
             }
             else
             {
-                initList(new ArrayList<BluetoothDevice>());
+
             }
 
         }
         else
         {
-            initList(new ArrayList<BluetoothDevice>());
+
         }
 
         mBTAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -112,38 +111,7 @@ public class BluetoothManagementActivity extends Activity
             new SearchDevices().execute();
         }
 
-        connect.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View arg0)
-            {
-                Intent intent = getIntent();
-                Bundle b = intent.getExtras();
-                String action = b.getString(HomeActivity.INTENT_ACTION);
 
-                BluetoothDevice device = ((MyAdapter) (listView.getAdapter())).getSelectedItem();
-
-                Intent newIntent;
-                //Determine to redirect to which page
-                //Monitor or Play
-                if(action.equals("Monitor"))
-                {
-                    newIntent = new Intent(getApplicationContext(), MonitoringScreen.class);
-                }
-                else
-                {
-                    newIntent = new Intent(getApplicationContext(), PlayActivity.class);
-                    newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
-                    newIntent.putExtra("user_id",user_id);
-                }
-
-                newIntent.putExtra(DEVICE_EXTRA, device);
-                newIntent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
-                newIntent.putExtra(BUFFER_SIZE, mBufferSize);
-                finish();//Kill current activity
-                startActivity(newIntent);
-            }
-        });
 
         left_hand_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +150,7 @@ public class BluetoothManagementActivity extends Activity
                 Bundle b = intent.getExtras();
                 String action = b.getString(HomeActivity.INTENT_ACTION);
 
-                BluetoothDevice device = ((MyAdapter) (listView.getAdapter())).getSelectedItem();
+
 
                 Intent newIntent;
                 //Determine to redirect to which page
@@ -281,20 +249,7 @@ public class BluetoothManagementActivity extends Activity
      * Initialize the List of BT adapter Devices
      * @param objects
      */
-    private void initList(List<BluetoothDevice> objects)
-    {
-        final MyAdapter adapter = new MyAdapter(getApplicationContext(), R.layout.list_item, R.id.lstContent, objects);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                adapter.setSelectedIndex(position);
-                connect.setEnabled(true);
-            }
-        });
-    }
+
 
     /**
      * Searches for paired devices. Only devices which are paired through Settings->Bluetooth
@@ -332,8 +287,7 @@ public class BluetoothManagementActivity extends Activity
             super.onPostExecute(listDevices);
             if (listDevices.size() > 0)
             {
-                MyAdapter adapter = (MyAdapter) listView.getAdapter();
-                adapter.replaceItems(listDevices);
+
                 if(left_hand_flag ==1)
                 {
                     left_hand_button.setEnabled(true);
@@ -355,6 +309,7 @@ public class BluetoothManagementActivity extends Activity
     /**
      * Custom adapter to show the current devices in the list.
      */
+    /*
     private class MyAdapter extends ArrayAdapter<BluetoothDevice> {
         private int selectedIndex;
         private Context context;
@@ -442,38 +397,8 @@ public class BluetoothManagementActivity extends Activity
             }
             BluetoothDevice device = myList.get(position);
             holder.tv.setText(device.getName() + "\n " + device.getAddress());
-            Button connect = findViewById(R.id.connect);
-            connect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = getIntent();
-                    Bundle b = intent.getExtras();
-                    String action = b.getString(HomeActivity.INTENT_ACTION);
+            //Button connect = findViewById(R.id.connect);
 
-                    BluetoothDevice device = ((MyAdapter) (listView.getAdapter())).getSelectedItem();
-
-                    Intent newIntent;
-
-                    //Determine to redirect to which page
-                    //Monitor or Play
-                    if(action.equals("Monitor"))
-                    {
-                        newIntent = new Intent(getApplicationContext(), MonitoringScreen.class);
-                    }
-                    else
-                    {
-                        newIntent = new Intent(getApplicationContext(), PlayActivity.class);
-                        newIntent.putExtra(LevelSelectionActivity.DIFFICULTY, b.getString(LevelSelectionActivity.DIFFICULTY));
-                        newIntent.putExtra("user_id",user_id_2);
-                    }
-
-                    newIntent.putExtra(DEVICE_EXTRA, device);
-                    newIntent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
-                    newIntent.putExtra(BUFFER_SIZE, mBufferSize);
-                    finish();//Kill current activity
-                    startActivity(newIntent);
-                }
-            });
 
             return vi;
         }
@@ -500,4 +425,6 @@ public class BluetoothManagementActivity extends Activity
         }
         return super.onOptionsItemSelected(item);
     }
+
+     */
 }

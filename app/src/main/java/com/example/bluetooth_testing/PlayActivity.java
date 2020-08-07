@@ -209,7 +209,7 @@ public class PlayActivity extends Activity{
             {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    startButton.setText("Seconds Remaining: " + millisUntilFinished/1000 + " Times Failed" + failed_attempts);
+                    startButton.setText("Seconds Remaining: " + millisUntilFinished/1000);
 
                 }
 
@@ -217,7 +217,7 @@ public class PlayActivity extends Activity{
                 public void onFinish() {
                    Toast.makeText(PlayActivity.this,"timer finished",Toast.LENGTH_SHORT).show();
                     failed_attempts++;
-                    i ++;
+                    //i ++;
                     timer_piano.cancel();
                     timer_piano.start();
                 }
@@ -836,7 +836,7 @@ public class PlayActivity extends Activity{
                 saveToDb_piano(diff, user_id);
             if (difficulty_level == 4) {
                 Log.d(TAG, "gameLogic: stored in level 4: "+ score);
-                Toast.makeText(this,String.valueOf(score),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this,String.valueOf(score),Toast.LENGTH_SHORT).show();
                 saveToDb_piano_1(diff, user_id, score);
             }
 
@@ -994,6 +994,7 @@ public class PlayActivity extends Activity{
             dataJson.put("TimeSpent", diff);
             dataJson.put("user_id", user_id);
             dataJson.put("score",score);
+            dataJson.put("failed",failed_attempts);
             dataJson.put("hand",hand_orientation);
 
         } catch (JSONException e) {
@@ -1006,7 +1007,7 @@ public class PlayActivity extends Activity{
             @Override
             public void onResponse(JSONObject response)
             {
-                Log.d("Retrieved", response.toString());
+                Log.d("Retrieved - game4: ", response.toString());
             }
 
         }, new Response.ErrorListener()
@@ -1036,7 +1037,7 @@ public class PlayActivity extends Activity{
         {
             dataJson.put("TimeSpent", diff_in_sec);
             dataJson.put("user_id", user_id);
-          //  dataJson.put("hand",hand_orientation);
+            dataJson.put("hand",hand_orientation);
         }
         catch(JSONException e)
         {
@@ -1077,7 +1078,7 @@ public class PlayActivity extends Activity{
 
         String str = instruction.getText().toString();
         String[] splitStr = str.split("\\s+");
-
+        Toast.makeText(this,hand_orientation,Toast.LENGTH_SHORT).show();
         try
         {
             //dataJson.put("instruction", instruction.getText().toString());
@@ -1087,7 +1088,7 @@ public class PlayActivity extends Activity{
             dataJson.put("timespent", timespent);
             dataJson.put("user_id",user_id);
             dataJson.put("level",level);
-          //  dataJson.put("hand",hand_orientation);
+            dataJson.put("hand",hand_orientation);
         }
         catch(JSONException e)
         {
