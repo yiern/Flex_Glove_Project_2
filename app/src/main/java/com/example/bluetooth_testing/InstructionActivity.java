@@ -10,11 +10,12 @@ import android.widget.TextView;
 public class InstructionActivity extends Activity
 {
 
-    Button easyBtn, mediumBtn;
+    Button easyBtn, mediumBtn, FreePlaybtn, PianoGamebtn;
     TextView instructionText;
 
     String  gifImagePath;
     WebView webView;
+
     //GifImageView fingerGif;
 
     @Override
@@ -25,7 +26,8 @@ public class InstructionActivity extends Activity
         easyBtn = (Button) findViewById(R.id.btnEasy);
         mediumBtn = (Button) findViewById(R.id.btnMedium);
         instructionText = (TextView) findViewById(R.id.instruction);
-
+        FreePlaybtn = findViewById(R.id.Piano_int);
+        PianoGamebtn = findViewById(R.id.PianoGame_int);
         //Default instruction
         instructionText.setText("Bending of fingers for basic exercises");
 
@@ -55,6 +57,23 @@ public class InstructionActivity extends Activity
                 gifImagePath  = "<body><center><img src = \"file:///android_res/drawable/medium.gif\"/></center></body>";
                 webView.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
                 instructionText.setText("Bend your finger as shown on the image above, simultaneously");
+            }
+        });
+
+        FreePlaybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gifImagePath  = "<body><center><img src = \"file:///android_res/drawable/piano.gif\"/></center></body>";
+                webView.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
+                instructionText.setText("Play the piano like you would do");
+            }
+        });
+
+        PianoGamebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                instructionText.setText("Follow the highlighted piano bars");
             }
         });
     }
