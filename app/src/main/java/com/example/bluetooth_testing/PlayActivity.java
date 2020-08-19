@@ -35,6 +35,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -50,6 +51,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -512,46 +514,14 @@ public class PlayActivity extends Activity{
             Double requiredDegree1 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(0).toString());
             Double requiredDegree2 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(1).toString());
 
-            //Log.d("required1", String.valueOf(requiredDegree1)); for debugging
-            //Log.d("required2", String.valueOf(requiredDegree2)); for debugging
 
-            Double receivedDegree1;
-            Double receivedDegree2;
-
-            receivedDegree1 = Double.valueOf(SensorDataList.get(0));
-            receivedDegree2 = Double.valueOf(SensorDataList.get(currentLevel-1));
+            Double receivedDegree1 = Double.valueOf(SensorDataList.get(0));
+            Double receivedDegree2 = Double.valueOf(SensorDataList.get(currentLevel));
             if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
                 success = true;
             }
 
 
-/*
-            if(currentLevel == 1)
-            {
-                receivedDegree1 = Double.valueOf(SensorDataList.get(0));
-                receivedDegree2 = Double.valueOf(SensorDataList.get(1));
-                if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
-                    success = true;
-                }
-            }
-            else if (currentLevel == 2)
-            {
-                receivedDegree1 = Double.valueOf(SensorDataList.get(0));
-                receivedDegree2 = Double.valueOf(SensorDataList.get(2));
-                if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
-                    success = true;
-                }
-            }
-            else if(currentLevel == 3)
-            {
-                receivedDegree1 = Double.valueOf(SensorDataList.get(0));
-                receivedDegree2 = Double.valueOf(SensorDataList.get(3));
-                if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
-                    success = true;
-                }
-            }
-
- */
         }
 
 
@@ -676,7 +646,7 @@ public class PlayActivity extends Activity{
         else if(difficulty_level== 4)
         {
 
-            Double requiredDegree = 30.0;
+            Double requiredDegree = 40.0;
 
             try {
                 Double thumb_Reading = Double.valueOf(SensorDataList.get(0));
@@ -684,10 +654,17 @@ public class PlayActivity extends Activity{
                 Double middle_reading = Double.valueOf(SensorDataList.get(2));
                 Double ring_reading = Double.valueOf(SensorDataList.get(3));
                 Double pinky_reading = Double.valueOf(SensorDataList.get(4));
+                if (i == melody_MaryHadALittleLamb.length)
+                {
+                    finish_game=true;
+                }
 
 
-            tone = melody_MaryHadALittleLamb[i];
-            if( i < melody_MaryHadALittleLamb.length ) {
+
+
+            if( i < melody_MaryHadALittleLamb.length || i != melody_MaryHadALittleLamb.length)
+            {
+                tone = melody_MaryHadALittleLamb[i];
                 title.setText("Mary had a little lamp \n " + "Score: " + score +" \n" +" Times Failed: " + failed_attempts);
 
                 if (tone.equals("C"))
@@ -823,7 +800,7 @@ public class PlayActivity extends Activity{
                 }
 
             }
-            else{
+            else if (i == melody_MaryHadALittleLamb.length){
                 finish_game=true;
             }
 
@@ -836,9 +813,9 @@ public class PlayActivity extends Activity{
         }
         if(finish_game)
         {
+            isPlaying=false;
             Bundle extras = getIntent().getExtras();
             final int user_id = extras.getInt("user_id");
-            isPlaying=false;
             long diff = (System.nanoTime() - StartTime_nano)/1000000000;
             Log.d(TAG, "gameLogic: " + diff);
             if(difficulty_level == 3)
@@ -1054,15 +1031,17 @@ public class PlayActivity extends Activity{
 
 
     //Save results to database
-    private void saveToDb(Integer result, long timespent, int user_id, int level)
+    private void saveToDb(final Integer result, final long timespent, final int user_id, final int level)
     {
         String url = "http://yiern.atspace.cc/AddGameHistory.php";
         //Insert into database to keep number of play record
-        JSONObject dataJson = new JSONObject();
+        final JSONObject dataJson = new JSONObject();
 
         String str = instruction.getText().toString();
+
         String[] splitStr = str.split("\\s+");
-        Toast.makeText(this,hand_orientation,Toast.LENGTH_SHORT).show();
+
+
         try
         {
             //dataJson.put("instruction", instruction.getText().toString());
@@ -1100,6 +1079,46 @@ public class PlayActivity extends Activity{
         });
 
         requestQueue.add(json_obj_req);
+
+        if(level ==2 )
+        {
+            try
+            {
+                //dataJson.put("instruction", instruction.getText().toString());
+                dataJson.put("finger", splitStr[6]);
+                dataJson.put("degree", splitStr[8]);
+                dataJson.put("result", result);
+                dataJson.put("timespent", timespent);
+                dataJson.put("user_id",user_id);
+                dataJson.put("level",level);
+                dataJson.put("hand",hand_orientation);
+            }
+            catch(JSONException e)
+            {
+                Log.e(TAG, "saveToDb: error saving: ", e );
+            }
+
+            RequestQueue requestQueue1 = Volley.newRequestQueue(this);
+            //Retrieve records from database
+            JsonObjectRequest json_obj_req1 = new JsonObjectRequest(Request.Method.POST, url, dataJson, new Response.Listener<JSONObject>()
+            {
+                @Override
+                public void onResponse(JSONObject response)
+                {
+                    Log.d("Retrieved", response.toString());
+                }
+
+            }, new Response.ErrorListener()
+            {
+                @Override
+                public void onErrorResponse(VolleyError error)
+                {
+                    Log.d("Failed", error.getMessage());
+                    error.printStackTrace();
+                }
+            });
+            requestQueue1.add(json_obj_req1);
+        }
     }
 
     //Populate the level header and instruction text as well as the image
@@ -1160,9 +1179,9 @@ public class PlayActivity extends Activity{
             requiredDegree1 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(0).toString());
             requiredDegree2 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(1).toString());
 
-            String requiredHand  = String.valueOf(currentLevel -1);
+            String requiredHand  = String.valueOf(currentLevel+1);
 
-            instruction.setText("Finger "+ currentLevel +" at " + requiredDegree1 + " degree\nFinger "+ currentLevel+" at " + requiredDegree2 + " degree");
+            instruction.setText("Finger 1 at " + requiredDegree1 + " degree\nFinger "+ requiredHand +" at " + requiredDegree2 + " degree");
 
             //Change the finger image based on level
             if(currentLevel == 1)

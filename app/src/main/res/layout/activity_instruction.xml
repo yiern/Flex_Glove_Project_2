@@ -48,9 +48,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Free play"
+            android:gravity="center"
             android:paddingRight="30dp"
-            android:gravity="center"/>
+            android:text="Free play" />
 
         <Button
             android:id="@+id/PianoGame_int"
