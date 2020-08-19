@@ -23,29 +23,7 @@ public class ViewDataActivity extends Activity
         setContentView(R.layout.activity_view_data);
 
         //Initialize the button
-        btnViewPlayTimes = (Button) findViewById(R.id.btnViewPlay);
-        btnViewHistory = (Button) findViewById(R.id.btnViewHistory);
         btnMonitor = (Button) findViewById(R.id.btnMonitor);
-
-        btnViewPlayTimes.setOnClickListener(new View.OnClickListener() //start calling ViewPlayTimes Activity when btn in app is pressed
-        {
-            @Override
-            public void onClick(View arg0)
-            {
-                Intent intent = new Intent(getApplicationContext(), ViewPlayTimesActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        btnViewHistory.setOnClickListener(new View.OnClickListener() //start calling ViewHistory Activity when btn in app is pressed
-        {
-            @Override
-            public void onClick(View arg0)
-            {
-                Intent intent = new Intent(getApplicationContext(), ViewHistoryActivity.class);
-                startActivity(intent);
-            }
-        });
 
         //Start monitoring
         btnMonitor.setOnClickListener(new View.OnClickListener() //start calling BTManagement>MonitoringScreen Activity when btn in app is pressed

@@ -24,8 +24,6 @@
         <activity android:name=".PlayActivity" />
         <activity android:name=".BluetoothManagementActivity" />
         <activity android:name=".ViewDataActivity" />
-        <activity android:name=".ViewPlayTimesActivity" />
-        <activity android:name=".ViewHistoryActivity" />
         <activity android:name=".InstructionActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
