@@ -138,18 +138,25 @@ public class PlayActivity extends Activity{
         if(difficulty_level == 3 || difficulty_level==4)
         {
             isPlaying_piano = false;
-
-
             setContentView(R.layout.activity_piano);
+            if(hand_orientation.equals("L"))
+            {
+                thumb = (Button) findViewById(R.id.button5);
+                index = (Button) findViewById(R.id.button4);
+                middle = (Button) findViewById(R.id.button3);
+                ring = (Button) findViewById(R.id.button2);
+                pinky = (Button) findViewById(R.id.button);
+            }
+            else {
 
+                thumb = (Button) findViewById(R.id.button);
+                index = (Button) findViewById(R.id.button2);
+                middle = (Button) findViewById(R.id.button3);
+                ring = (Button) findViewById(R.id.button4);
+                pinky = (Button) findViewById(R.id.button5);
+            }
 
             mTxtReceive = findViewById(R.id.txtReceive);
-            thumb = (Button) findViewById(R.id.button);
-            index = (Button) findViewById(R.id.button2);
-            middle = (Button) findViewById(R.id.button3);
-            ring = (Button) findViewById(R.id.button4);
-            pinky = (Button) findViewById(R.id.button5);
-
             startButton = (Button) findViewById(R.id.Start_button);
             endButton = (Button) findViewById(R.id.button6);
             title = (TextView) findViewById(R.id.textView3);
