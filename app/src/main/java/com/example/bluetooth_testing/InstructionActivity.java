@@ -60,6 +60,7 @@ public class InstructionActivity extends Activity
             }
         });
 
+        //Piano Game mode Instructions
         FreePlaybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,11 +70,14 @@ public class InstructionActivity extends Activity
             }
         });
 
+        //Marry Had a Little Lamb Mode Instructions
         PianoGamebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                instructionText.setText("Follow the highlighted piano bars");
+                gifImagePath  = "<body><center><img src = \"file:///android_res/drawable/PianoTutorial.gif\"/></center></body>";
+                webView.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
+                instructionText.setText("Follow the highlighted piano bars and bend your respective finger to play the game");
             }
         });
     }
