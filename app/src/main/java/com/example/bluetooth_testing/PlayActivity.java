@@ -517,6 +517,7 @@ public class PlayActivity extends Activity{
         }
         //Medium mode logic
         else if (difficulty_level == 2) {
+
             sound = new SoundPlayer(this);
             Double requiredDegree1 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(0).toString());
             Double requiredDegree2 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(1).toString());
@@ -524,6 +525,7 @@ public class PlayActivity extends Activity{
 
             Double receivedDegree1 = Double.valueOf(SensorDataList.get(0));
             Double receivedDegree2 = Double.valueOf(SensorDataList.get(currentLevel));
+
             if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
                 success = true;
             }
@@ -883,7 +885,7 @@ public class PlayActivity extends Activity{
                 saveToDb(1, timeSpent,user_id,2);
 
             //If reach max level of the specified mode, give player option to quit or restart
-            if(currentLevel == easyDegree.size())
+            if(currentLevel == easyDegree.size() || currentLevel == mediumDegree.size()-1)
             {
                 new android.app.AlertDialog.Builder(PlayActivity.this)
                         .setIcon(R.drawable.congrats)
@@ -1052,8 +1054,15 @@ public class PlayActivity extends Activity{
         try
         {
             //dataJson.put("instruction", instruction.getText().toString());
-            dataJson.put("finger", splitStr[1]);
-            dataJson.put("degree", splitStr[3]);
+            if(level==1) {
+                dataJson.put("finger", splitStr[1]);
+                dataJson.put("degree", splitStr[3]);
+            }
+            else if(level==2)
+            {
+                dataJson.put("finger", splitStr[1]+","+splitStr[6]);
+                dataJson.put("degree", splitStr[3]+","+splitStr[8]);
+            }
             dataJson.put("result", result);
             dataJson.put("timespent", timespent);
             dataJson.put("user_id",user_id);
@@ -1087,45 +1096,7 @@ public class PlayActivity extends Activity{
 
         requestQueue.add(json_obj_req);
 
-        if(level ==2 )
-        {
-            try
-            {
-                //dataJson.put("instruction", instruction.getText().toString());
-                dataJson.put("finger", splitStr[6]);
-                dataJson.put("degree", splitStr[8]);
-                dataJson.put("result", result);
-                dataJson.put("timespent", timespent);
-                dataJson.put("user_id",user_id);
-                dataJson.put("level",level);
-                dataJson.put("hand",hand_orientation);
-            }
-            catch(JSONException e)
-            {
-                Log.e(TAG, "saveToDb: error saving: ", e );
-            }
 
-            RequestQueue requestQueue1 = Volley.newRequestQueue(this);
-            //Retrieve records from database
-            JsonObjectRequest json_obj_req1 = new JsonObjectRequest(Request.Method.POST, url, dataJson, new Response.Listener<JSONObject>()
-            {
-                @Override
-                public void onResponse(JSONObject response)
-                {
-                    Log.d("Retrieved", response.toString());
-                }
-
-            }, new Response.ErrorListener()
-            {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
-                    Log.d("Failed", error.getMessage());
-                    error.printStackTrace();
-                }
-            });
-            requestQueue1.add(json_obj_req1);
-        }
     }
 
     //Populate the level header and instruction text as well as the image
