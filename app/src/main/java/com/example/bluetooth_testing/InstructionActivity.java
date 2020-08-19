@@ -75,7 +75,7 @@ public class InstructionActivity extends Activity
             @Override
             public void onClick(View v) {
 
-                gifImagePath  = "<body><center><img src = \"file:///android_res/drawable/PianoTutorial.gif\"/></center></body>";
+                gifImagePath  = "<body><center><img src = \"file:///android_res/drawable/PianoTutoria.gif\"/></center></body>";
                 webView.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
                 instructionText.setText("Follow the highlighted piano bars and bend your respective finger to play the game");
             }
