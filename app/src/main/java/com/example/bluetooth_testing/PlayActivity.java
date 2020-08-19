@@ -28,12 +28,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +63,6 @@ public class PlayActivity extends Activity{
     private int maximumTime = 10;
 
     int i = 0, score = 0;
-
     private BluetoothDevice mDevice;
     private UUID mDeviceUUID;
     private ProgressDialog progressDialog;
@@ -162,8 +165,14 @@ public class PlayActivity extends Activity{
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(mDevice==null)
+                    {
+                        Snackbar.make(v,"not connected to any bluetooth device", BaseTransientBottomBar.LENGTH_LONG);
+                    }
+                    finish_game = false;
                     i = 0;
                     isPlaying = true;
+
                     startButton.setText("PLAYING");
                     startButton.setEnabled(false);
                     StartTime_nano = System.nanoTime();
@@ -182,9 +191,9 @@ public class PlayActivity extends Activity{
                     finish_game = true;
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                             .setIcon(R.drawable.sad)
-                            .setTitle("Failed")
+                            .setTitle("Game Ended")
                             .setMessage("Game ended")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("restart", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     startButton.setEnabled(true);
@@ -840,32 +849,7 @@ public class PlayActivity extends Activity{
                 saveToDb_piano_1(diff, user_id, score);
             }
 
-            if(isFailed)
-            {
-                new android.app.AlertDialog.Builder(PlayActivity.this)
-                        .setIcon(R.drawable.sad)
-                        .setTitle("Failed")
-                        .setMessage("Time's up. Try it again")
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startButton.setEnabled(true);
-                                startButton.setText("Restart!");
 
-                            }
-                        })
-                        .setCancelable(false)
-                        .setNegativeButton("Quit", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
-                        .show();
-
-            }
-            else
-                {
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                         .setIcon(R.drawable.congrats)
                         .setTitle("Completed")
@@ -888,7 +872,7 @@ public class PlayActivity extends Activity{
                         .setCancelable(false)
                         .show();
 
-                }
+
         }
 
 
@@ -1029,7 +1013,7 @@ public class PlayActivity extends Activity{
         String url = "http://yiern.atspace.cc/addPianoHistory.php";
 
 
-        Log.d(TAG, "saveToDb_piano: number 2: "+diff_in_sec);
+        Log.d(TAG, "saveToDb_piano: number 2: "+ diff_in_sec);
         //Insert into database to keep number of play record
         JSONObject dataJson = new JSONObject();
 
@@ -1176,7 +1160,9 @@ public class PlayActivity extends Activity{
             requiredDegree1 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(0).toString());
             requiredDegree2 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(1).toString());
 
-            instruction.setText("Finger 1 at " + requiredDegree1 + " degree\nFigure 2 at " + requiredDegree2 + " degree");
+            String requiredHand  = String.valueOf(currentLevel -1);
+
+            instruction.setText("Finger "+ currentLevel +" at " + requiredDegree1 + " degree\nFinger "+ currentLevel+" at " + requiredDegree2 + " degree");
 
             //Change the finger image based on level
             if(currentLevel == 1)

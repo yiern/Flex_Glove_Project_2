@@ -269,6 +269,7 @@ public class BluetoothManagementActivity extends Activity
                     Left_hand_MAC = device;
                     handOrientation = "L";
 
+
                 }
                 if(device.getName().equals("BT5"))
                 {

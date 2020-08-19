@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 import androidx.annotation.Nullable;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 public class BluetoothDataService extends Service {
 
@@ -50,6 +54,7 @@ public class BluetoothDataService extends Service {
     {
         super.onCreate();
         Log.d("BT SERVICE", "SERVICE CREATED"+ mDevice);
+
     }
 
     @Override
@@ -180,6 +185,7 @@ public class BluetoothDataService extends Service {
             if (!mConnectSuccessful)
             {
                 Toast.makeText(getApplicationContext(), "Could not connect to device. Is it a Serial device? Also check if the UUID is correct in the settings", Toast.LENGTH_LONG).show();
+              
             }
             else
             {
