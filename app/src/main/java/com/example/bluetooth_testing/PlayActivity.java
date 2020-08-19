@@ -379,6 +379,7 @@ public class PlayActivity extends Activity{
         mediumDegree.add(new ArrayList<Double>());
         mediumDegree.add(new ArrayList<Double>());
         mediumDegree.add(new ArrayList<Double>());
+        mediumDegree.add(new ArrayList<Double>());
 
         //Level 1
         mediumDegree.get(0).add(15.0); //Sensor1
@@ -399,6 +400,9 @@ public class PlayActivity extends Activity{
         //Level 5
         mediumDegree.get(4).add(55.0); //Sensor1
         mediumDegree.get(4).add(50.0); //Sensor2
+
+        mediumDegree.get(5).add(50.0);
+        mediumDegree.get(5).add(50.0);
 
         //Log.d("testb", easyDegree.toString()); for debugging
 
@@ -521,15 +525,23 @@ public class PlayActivity extends Activity{
             sound = new SoundPlayer(this);
             Double requiredDegree1 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(0).toString());
             Double requiredDegree2 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(1).toString());
+            if(currentLevel==5)
+            {
+                Double receivedDegree1 = Double.valueOf(SensorDataList.get(1));
+                Double receivedDegree2 = Double.valueOf(SensorDataList.get(3));
 
-
-            Double receivedDegree1 = Double.valueOf(SensorDataList.get(0));
-            Double receivedDegree2 = Double.valueOf(SensorDataList.get(currentLevel));
-
-            if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
-                success = true;
+                if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
+                    success = true;
+                }
             }
+            else {
+                Double receivedDegree1 = Double.valueOf(SensorDataList.get(0));
+                Double receivedDegree2 = Double.valueOf(SensorDataList.get(currentLevel));
 
+                if (receivedDegree1 >= requiredDegree1 && receivedDegree2 >= requiredDegree2) {
+                    success = true;
+                }
+            }
 
         }
 
@@ -1158,9 +1170,13 @@ public class PlayActivity extends Activity{
             requiredDegree2 = Double.valueOf(mediumDegree.get(currentLevel - 1).get(1).toString());
 
             String requiredHand  = String.valueOf(currentLevel+1);
-
-            instruction.setText("Finger 1 at " + requiredDegree1 + " degree\nFinger "+ requiredHand +" at " + requiredDegree2 + " degree");
-
+            if(currentLevel==5)
+            {
+                instruction.setText("Finger 2 at " + requiredDegree1 + " degree\n Finger 4 at " + requiredDegree2 + " degree");
+            }
+            else {
+                instruction.setText("Finger 1 at " + requiredDegree1 + " degree\nFinger " + requiredHand + " at " + requiredDegree2 + " degree");
+            }
             //Change the finger image based on level
             if(currentLevel == 1)
             {
