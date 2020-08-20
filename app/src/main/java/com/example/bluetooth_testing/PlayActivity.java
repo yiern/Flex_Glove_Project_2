@@ -55,6 +55,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import pl.droidsonroids.gif.GifDrawable;
+
 import static android.content.ContentValues.TAG;
 
 public class PlayActivity extends Activity{
@@ -667,7 +669,7 @@ public class PlayActivity extends Activity{
         else if(difficulty_level== 4)
         {
 
-            Double requiredDegree = 40.0;
+            Double requiredDegree = 50.0;
 
             try {
                 Double thumb_Reading = Double.valueOf(SensorDataList.get(0));
@@ -681,147 +683,141 @@ public class PlayActivity extends Activity{
                 }
 
 
-
-
-            if( i < melody_MaryHadALittleLamb.length || i != melody_MaryHadALittleLamb.length)
+            if( i < melody_MaryHadALittleLamb.length)
             {
                 tone = melody_MaryHadALittleLamb[i];
                 title.setText("Mary had a little lamp \n " + "Score: " + score +" \n" +" Times Failed: " + failed_attempts);
-
-                if (tone.equals("C"))
+                switch(tone)
                 {
-                    if(timer_flag == 0) {
-                        timer_piano.start();
-                        timer_flag = 1;
-                    }
-                    thumb.setBackgroundColor(Color.BLUE);
-                    MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.c_note);
-                    if (thumb_Reading >= requiredDegree)
-                    {          //todo replace index_right reading with thumb_right reading
-                        timer_flag = 0;
-
-                        if(c_flag == 0) {
-                            mp.start();
-                            c_flag=1;
+                    case("C"):
+                        if (timer_flag == 0) {
+                            timer_piano.start();
+                            timer_flag = 1;
                         }
-                        timer_piano.cancel();
+                        thumb.setBackgroundColor(Color.BLUE);
+                        MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.c_note);
+                        if (thumb_Reading >= requiredDegree) {
+                            timer_flag = 0;
 
-                        thumb.setBackgroundResource(R.color.C_Block);
-                        i++;
-                        score++;
-                        c_flag = 0;
+                            if (c_flag == 0) {
+                                mp.start();
+                                c_flag = 1;
+                            }
+                            timer_piano.cancel();
 
-                    }
+                            thumb.setBackgroundResource(R.color.C_Block);
+                            i++;
+                            score++;
+                            c_flag = 0;
 
-                }
-
-                if (tone.equals("D"))
-                {
-                    if(timer_flag == 0) {
-                        timer_piano.start();
-                        timer_flag = 1;
-                    }
-                    index.setBackgroundColor(Color.BLUE);
-                    MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.d_note);
-                    if (index_reading >= requiredDegree) {
-                        timer_flag = 0;
-                        timer_piano.cancel();
-
-                        if(d_flag == 0) {
-                            mp.start();
-                            d_flag=1;
                         }
 
-                        index.setBackgroundResource(R.color.D_Block);
+
+
+                    case("D"):
+                        if (timer_flag == 0) {
+                            timer_piano.start();
+                            timer_flag = 1;
+                        }
+                        index.setBackgroundColor(Color.BLUE);
+                        mp = MediaPlayer.create(getApplicationContext(), R.raw.d_note);
+                        if (index_reading >= requiredDegree) {
+                            timer_flag = 0;
+                            timer_piano.cancel();
+
+                            if (d_flag == 0) {
+                                mp.start();
+                                d_flag = 1;
+                            }
+
+                            index.setBackgroundResource(R.color.D_Block);
 
 
                             i++;
                             score++;
-                            d_flag=0;
+                            d_flag = 0;
 
-                    }
-
-                }
-
-                if (tone == "E")
-                {
-                    if(timer_flag == 0) {
-                        timer_piano.start();
-                        timer_flag = 1;
-                    }
-                    middle.setBackgroundColor(Color.BLUE);
-                    MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.e_note);
-                    if (middle_reading >= requiredDegree) {
-                        timer_flag = 0;
-                        timer_piano.cancel();
-
-                        middle.setBackgroundResource(R.color.E_Block);
-                        if(e_flag == 0) {
-                            mp.start();
-                            e_flag=1;
                         }
+
+
+                    case("E"):
+                        if (timer_flag == 0) {
+                            timer_piano.start();
+                            timer_flag = 1;
+                        }
+                        middle.setBackgroundColor(Color.BLUE);
+                        mp = MediaPlayer.create(getApplicationContext(), R.raw.e_note);
+                        if (middle_reading >= requiredDegree) {
+                            timer_flag = 0;
+                            timer_piano.cancel();
+
+                            middle.setBackgroundResource(R.color.E_Block);
+                            if (e_flag == 0) {
+                                mp.start();
+                                e_flag = 1;
+                            }
 
 
                             i++;
                             score++;
-                            e_flag=0;
+                            e_flag = 0;
 
-                    }
-                }
-
-
-                if (tone == "F") {
-                    if(timer_flag == 0) {
-                        timer_piano.start();
-                        timer_flag = 1;
-                    }
-                    ring.setBackgroundColor(Color.BLUE);
-                    MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.f_note);
-                    if (ring_reading >= requiredDegree) {
-                        timer_flag = 0;
-                        if(f_flag == 0) {
-                            mp.start();
-                            f_flag=1;
                         }
 
-                        ring.setBackgroundResource(R.color.F_Block);
+
+                    case("F"):
+                        if (timer_flag == 0) {
+                            timer_piano.start();
+                            timer_flag = 1;
+                        }
+                        ring.setBackgroundColor(Color.BLUE);
+                        mp = MediaPlayer.create(getApplicationContext(), R.raw.f_note);
+                        if (ring_reading >= requiredDegree) {
+                            timer_flag = 0;
+                            if (f_flag == 0) {
+                                mp.start();
+                                f_flag = 1;
+                            }
+
+                            ring.setBackgroundResource(R.color.F_Block);
 
 
                             i++;
                             score++;
-                            f_flag=0;
+                            f_flag = 0;
 
-
-                    }
-                }
-
-                if (tone.equals("G")) {
-                    if(timer_flag == 0) {
-                        timer_piano.start();
-                        timer_flag = 1;
-                    }
-                    double requiredDegree_pinky = 30.0;
-                    pinky.setBackgroundColor(Color.BLUE);
-                    MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.g_note);
-                    if (pinky_reading >= requiredDegree_pinky) {
-                        timer_flag = 0;
-                        timer_piano.cancel();
-                        if(g_flag == 0) {
-                            mp.start();
-                            g_flag=1;
                         }
-                        pinky.setBackgroundResource(R.color.G_Block);
+
+
+                    case("G"):
+                        if (timer_flag == 0) {
+                            timer_piano.start();
+                            timer_flag = 1;
+                        }
+                        double requiredDegree_pinky = 30.0;
+                        pinky.setBackgroundColor(Color.BLUE);
+                        mp = MediaPlayer.create(getApplicationContext(), R.raw.g_note);
+                        if (pinky_reading >= requiredDegree_pinky) {
+                            timer_flag = 0;
+                            timer_piano.cancel();
+                            if (g_flag == 0) {
+                                mp.start();
+                                g_flag = 1;
+                            }
+                            pinky.setBackgroundResource(R.color.G_Block);
 
 
                             i++;
                             score++;
-                            g_flag=0;
+                            g_flag = 0;
 
-                    }
+                        }
+
                 }
+
 
             }
-            else if (i == melody_MaryHadALittleLamb.length){
+            else{
                 finish_game=true;
             }
 
@@ -1112,6 +1108,7 @@ public class PlayActivity extends Activity{
     }
 
     //Populate the level header and instruction text as well as the image
+    @SuppressLint("SetTextI18n")
     private void populateResources()
     {
         Integer requiredSensor;
@@ -1129,34 +1126,68 @@ public class PlayActivity extends Activity{
 
             instruction.setText("Finger " + requiredSensor + " at " + requiredDegree1 + " degree");
 
-            //Change the finger image based on level
-            switch(currentLevel) {
-                case(1):
-                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/thumb_right.gif\"/></center></body>";
-                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
-                    break;
-                case(2):
-                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/index_right.gif\"/></center></body>";
-                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
-                    break;
-                case(3):
-                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/middle_right.gif\"/></center></body>";
-                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
-                    break;
-                case(4):
-                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/ring_right.gif\"/></center></body>";
-                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
-                    break;
-                case(5):
-                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/pinky_right.gif\"/></center></body>";
-                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
-                    break;
-                case(6):
-                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/easy.gif\"/></center></body>";
-                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
-                    break;
+            if(hand_orientation.equals("R"))
+            {
+
+                //Change the finger image based on level
+                switch (currentLevel)
+                {
+                    case(0):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/easy.gif\"/></center></body>";
+                        break;
+                    case (1):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/thumb_right.gif\"/></center></body>";
+
+                        break;
+                    case (2):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/index_right.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case (3):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/middle_right.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case (4):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/ring_right.gif\"/></center></body>";
+                        // fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case (5):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/pinky_right.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                }
+                fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+            }
+            else
+            {
+                switch (currentLevel)
+                {
+                    case(0):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/easy.gif\"/></center></body>";
+                        break;
+                    case (1):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/thumb_left.gif\"/></center></body>";
+                        break;
+                    case (2):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/index_left.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case (3):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/middle_left.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case (4):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/ring_left.gif\"/></center></body>";
+                        // fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case (5):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/pinky_left.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                }
 
             }
+            fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
         }
 
         //Medium mode
@@ -1174,37 +1205,69 @@ public class PlayActivity extends Activity{
             else {
                 instruction.setText("Finger 1 at " + requiredDegree1 + " degree\nFinger " + requiredHand + " at " + requiredDegree2 + " degree");
             }
-            //Change the finger image based on level
-            if(currentLevel == 1)
+
+            if(hand_orientation.equals("R"))
             {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/indexthumb_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else if(currentLevel == 2)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/middlethumb_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else if(currentLevel == 3)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/ringthumb_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else if(currentLevel == 4)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/pinkythumb_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else if(currentLevel == 5)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/indexring_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
+                switch(currentLevel)
+                {
+                    //Change the finger image based on level
+                    case(0):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/medium.gif\"/></center></body>";
+                        break;
+                    case(1):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/indexthumb_right.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case(2):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/middlethumb_right.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case(3):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/ringthumb_right.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case(4):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/pinkythumb_right.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case(5):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/indexring_right.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                }
+                fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
             }
             else
             {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/medium.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
+                switch(currentLevel)
+                {
+                    //Change the finger image based on level
+                    case(0):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/medium.gif\"/></center></body>";
+                        break;
+                    case(1):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/indexthumb_left.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case(2):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/middlethumb_left.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case(3):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/ringthumb_left.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case(4):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/pinkythumb_left.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                    case(5):
+                        gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/indexring_left.gif\"/></center></body>";
+                        //fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                        break;
+                }
             }
+            fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
         }
 
     }
