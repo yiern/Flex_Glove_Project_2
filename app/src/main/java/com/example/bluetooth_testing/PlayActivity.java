@@ -202,6 +202,7 @@ public class PlayActivity extends Activity{
                 public void onClick(View v) {
                     timer_piano.cancel();
                     finish_game = true;
+                    /*
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                             .setTitle("Game Ended")
                             .setMessage("Game ended")
@@ -222,6 +223,8 @@ public class PlayActivity extends Activity{
                             })
                             .show();
 
+
+                     */
 
                 }
             });
@@ -816,7 +819,7 @@ public class PlayActivity extends Activity{
                 saveToDb_piano_1(diff, user_id, score);
             }
 
-                    /*
+
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                         .setIcon(R.drawable.congrats)
                         .setTitle("Completed")
@@ -839,7 +842,7 @@ public class PlayActivity extends Activity{
                         .setCancelable(false)
                         .show();
 
-                     */
+
 
 
         }
