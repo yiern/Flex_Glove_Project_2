@@ -174,7 +174,7 @@ public class PlayActivity extends Activity{
             pinky.setBackgroundResource(R.color.G_Block);
             isPlaying = false;
             finish_game = false;
-
+            startButton.setEnabled(true);
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1357,11 +1357,15 @@ public class PlayActivity extends Activity{
                     Log.d(TAG, "onReceive: Error connecting");
 
                      */
-
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.PlayActivity),"Error Connecting",BaseTransientBottomBar.LENGTH_SHORT);
+                    Snackbar snackbar;
+                    if(difficulty_level==1 | difficulty_level==2)
+                        snackbar = Snackbar.make(findViewById(R.id.PlayActivity),"Error Connecting",BaseTransientBottomBar.LENGTH_SHORT);
+                    else
+                        snackbar = Snackbar.make(findViewById(R.id.PianoLayout),"Error Connecting",BaseTransientBottomBar.LENGTH_SHORT);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(Color.RED);
                     snackbar.show();
+                    startButton.setEnabled(false);
                 }
 
 
