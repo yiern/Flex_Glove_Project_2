@@ -705,8 +705,6 @@ public class PlayActivity extends Activity{
                             }
 
                             thumb.setBackgroundResource(R.color.C_Block);
-                            while (thumb_Reading >= requiredDegree) {
-                            }
 
                             i++;
                             score++;
