@@ -1329,8 +1329,11 @@ public class PlayActivity extends Activity{
 
                      */
 
-
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.PlayActivity),"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT);
+                    Snackbar snackbar;
+                    if(difficulty_level==1 | difficulty_level==2)
+                        snackbar = Snackbar.make(findViewById(R.id.PlayActivity),"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT);
+                    else
+                        snackbar = Snackbar.make(findViewById(R.id.PianoLayout),"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT);
                     View snackbarview = snackbar.getView();
                     snackbarview.setBackgroundColor(Color.GREEN);
                     snackbar.show();
