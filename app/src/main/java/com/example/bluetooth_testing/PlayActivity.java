@@ -1328,7 +1328,10 @@ public class PlayActivity extends Activity{
 
 
 
-                    Snackbar.make(findViewById(R.id.PlayActivity),"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.PlayActivity),"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT);
+                    View snackbarview = snackbar.getView();
+                    snackbarview.setBackgroundColor(Color.GREEN);
+                    snackbar.show();
                 }
                 //Error occurred asdw
                 else
@@ -1352,7 +1355,7 @@ public class PlayActivity extends Activity{
                     Log.d(TAG, "onReceive: Error connecting");
 
                      */
-                    Log.d(TAG, "onReceive: XDDD");
+
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.PlayActivity),"Error Connecting",BaseTransientBottomBar.LENGTH_SHORT);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(Color.RED);
