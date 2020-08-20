@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="5"
-    android:padding="5dp"> <!-- to show what the parent is -->
+    android:padding="5dp"
+    android:id="@+id/PlayActivity"> <!-- to show what the parent is -->
 
     <TextView
         android:id="@+id/levelHeader"

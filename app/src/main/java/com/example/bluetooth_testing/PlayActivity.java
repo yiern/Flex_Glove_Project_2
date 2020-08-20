@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 
 import android.media.MediaPlayer;
@@ -115,6 +116,7 @@ public class PlayActivity extends Activity{
     private boolean finish_game, isFailed;
 
     MediaPlayer c_note, d_note, e_note, f_note, g_note;
+    private View view;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -134,7 +136,7 @@ public class PlayActivity extends Activity{
         Bundle extras = getIntent().getExtras();
         user_id = extras.getInt("user_id");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        view = findViewById(R.id.PlayActivity);
         difficulty_level = Integer.parseInt(b.getString(LevelSelectionActivity.DIFFICULTY));
 
         if(difficulty_level == 3 || difficulty_level==4)
@@ -201,7 +203,6 @@ public class PlayActivity extends Activity{
                     timer_piano.cancel();
                     finish_game = true;
                     new android.app.AlertDialog.Builder(PlayActivity.this)
-                            .setIcon(R.drawable.sad)
                             .setTitle("Game Ended")
                             .setMessage("Game ended")
                             .setPositiveButton("restart", new DialogInterface.OnClickListener() {
@@ -414,6 +415,7 @@ public class PlayActivity extends Activity{
 
     @Override
     public void onBackPressed(){
+        finish_game = true;
             finish();
     }
 
@@ -476,43 +478,6 @@ public class PlayActivity extends Activity{
             Double receivedDegree;
 
 
-            /*
-            if(currentLevel == 1)
-            {
-                receivedDegree = Double.valueOf(SensorDataList.get(0));
-                if (receivedDegree >= requiredDegree) {
-                    success = true;
-                }
-            }
-            else if(currentLevel == 2)
-            {
-                receivedDegree = Double.valueOf(SensorDataList.get(1));
-                if (receivedDegree >= requiredDegree) {
-                    success = true;
-                }
-            }
-            else if(currentLevel == 3)
-            {
-                receivedDegree = Double.valueOf(SensorDataList.get(2));
-                if (receivedDegree >= requiredDegree) {
-                    success = true;
-                }
-            }
-            else if(currentLevel == 4)
-            {
-                receivedDegree = Double.valueOf(SensorDataList.get(3));
-                if (receivedDegree >= requiredDegree) {
-                    success = true;
-                }
-            }
-            else if(currentLevel == 5)
-            {
-                receivedDegree = Double.valueOf(SensorDataList.get(4));
-                if (receivedDegree >= requiredDegree) {
-                    success = true;
-                }
-            }
-            */
 
             receivedDegree = Double.valueOf(SensorDataList.get(currentLevel-1));
             if(receivedDegree > requiredDegree){
@@ -849,7 +814,7 @@ public class PlayActivity extends Activity{
                 saveToDb_piano_1(diff, user_id, score);
             }
 
-
+                    /*
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                         .setIcon(R.drawable.congrats)
                         .setTitle("Completed")
@@ -871,6 +836,8 @@ public class PlayActivity extends Activity{
                         })
                         .setCancelable(false)
                         .show();
+
+                     */
 
 
         }
@@ -1304,7 +1271,7 @@ public class PlayActivity extends Activity{
                         List<String> SensorDataList = Arrays.asList(receivedDataString.split(","));
                         Log.d(TAG, String.valueOf(SensorDataList.size()));
                         if(SensorDataList.size() == 5) {
-                            mTxtReceive.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()) + "\nThumb: " + SensorDataList.get(0) + "\nIndex : " + SensorDataList.get(1) + "\nMiddle : " + SensorDataList.get(2) + "\nRing : " + SensorDataList.get(3) + "\nPinky : " + SensorDataList.get(4) + "\n\n");//display the degree of both sensors index_right(0) && index_right(2) == Degree and index_right(1)&& index_right(3) == Ohms
+                            mTxtReceive.append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()) + "\nThumb: " + SensorDataList.get(0) + "\nIndex : " + SensorDataList.get(1) + "\nMiddle : " + SensorDataList.get(2) + "\nRing : " + SensorDataList.get(3) + "\nPinky : " + SensorDataList.get(4) + "\n\n");
 
                             int txtLength = mTxtReceive.getEditableText().length();
                             if (txtLength > mMaxChars) {
@@ -1340,6 +1307,7 @@ public class PlayActivity extends Activity{
                 //If connected
                 if(bluetoothConnected)
                 {
+                    /*
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Success")
@@ -1355,10 +1323,15 @@ public class PlayActivity extends Activity{
                             })
                             .setCancelable(false)
                             .show();
+
+                     */
+
+                    Snackbar.make(view,"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT).show();
                 }
                 //Error occurred asdw
                 else
                 {
+                    /*
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Error")
@@ -1375,7 +1348,18 @@ public class PlayActivity extends Activity{
                             .setCancelable(false)
                             .show();
                     Log.d(TAG, "onReceive: Error connecting");
+
+                     */
+                    Snackbar snackbar = Snackbar.make(view,"Error Connecting",BaseTransientBottomBar.LENGTH_SHORT);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(Color.RED);
                 }
+
+
+
+
+
+
             }
             //Disconnected
             else if(intent.getAction() == BluetoothDevice.ACTION_ACL_DISCONNECTED)
