@@ -698,14 +698,16 @@ public class PlayActivity extends Activity{
                         MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.c_note);
                         if (thumb_Reading >= requiredDegree) {
                             timer_flag = 0;
-
+                            timer_piano.cancel();
                             if (c_flag == 0) {
                                 mp.start();
                                 c_flag = 1;
                             }
-                            timer_piano.cancel();
 
                             thumb.setBackgroundResource(R.color.C_Block);
+                            while (thumb_Reading >= requiredDegree) {
+                            }
+
                             i++;
                             score++;
                             c_flag = 0;
