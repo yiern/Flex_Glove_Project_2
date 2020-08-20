@@ -1130,35 +1130,26 @@ public class PlayActivity extends Activity{
             instruction.setText("Finger " + requiredSensor + " at " + requiredDegree1 + " degree");
 
             //Change the finger image based on level
-            if (currentLevel == 1)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/thumb_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else if (currentLevel == 2)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/index_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else if (currentLevel == 3)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/middle_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else if (currentLevel == 4)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/ring_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else if (currentLevel == 5)
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/pinky_right.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
-            }
-            else
-            {
-                gifImagePath  = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/easy.gif\"/></center></body>";
-                fingerImage.loadDataWithBaseURL("file:///android_asset/",gifImagePath,"text/html","UTF-8",null);
+            switch(currentLevel) {
+                case(1):
+                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/thumb_right.gif\"/></center></body>";
+                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                case(2):
+                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/index_right.gif\"/></center></body>";
+                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                case(3):
+                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/middle_right.gif\"/></center></body>";
+                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                case(4):
+                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/ring_right.gif\"/></center></body>";
+                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                case(5):
+                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/pinky_right.gif\"/></center></body>";
+                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+                case(6):
+                    gifImagePath = "<body><center><style>img{display: inline;max-height: 100%;max-width: 100%;}</style><img src = \"file:///android_res/drawable/easy.gif\"/></center></body>";
+                    fingerImage.loadDataWithBaseURL("file:///android_asset/", gifImagePath, "text/html", "UTF-8", null);
+
             }
         }
 
