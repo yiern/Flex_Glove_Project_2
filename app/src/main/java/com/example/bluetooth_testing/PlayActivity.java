@@ -1309,7 +1309,7 @@ public class PlayActivity extends Activity{
                 //If connected
                 if(bluetoothConnected)
                 {
-                    
+                    /*
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Success")
@@ -1327,13 +1327,15 @@ public class PlayActivity extends Activity{
                             .show();
 
 
+                     */
+
 
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.PlayActivity),"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT);
                     View snackbarview = snackbar.getView();
                     snackbarview.setBackgroundColor(Color.GREEN);
                     snackbar.show();
                 }
-                //Error occurred asdw
+
                 else
                 {
                     /*
