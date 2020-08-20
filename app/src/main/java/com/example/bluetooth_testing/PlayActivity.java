@@ -416,8 +416,10 @@ public class PlayActivity extends Activity{
     @Override
     public void onBackPressed(){
         finish_game = true;
-        timer.cancel();
-        timer_piano.cancel();
+        if(difficulty_level==1 || difficulty_level==2)
+            timer.cancel();
+        else
+            timer_piano.cancel();
         finish();
     }
 
@@ -582,7 +584,8 @@ public class PlayActivity extends Activity{
                     e_flag = 0;
                 }
 
-                if (ring_reading >= requiredDegree) {
+                if (ring_reading >= requiredDegree)
+                {
                     ring.setBackgroundColor(Color.BLUE);
                     if(f_flag == 0) {
                         f_note.start();
@@ -644,9 +647,6 @@ public class PlayActivity extends Activity{
                 {
                     finish_game=true;
                 }
-
-
-
 
             if( i < melody_MaryHadALittleLamb.length || i != melody_MaryHadALittleLamb.length)
             {
@@ -768,7 +768,7 @@ public class PlayActivity extends Activity{
                         timer_piano.start();
                         timer_flag = 1;
                     }
-                    double requiredDegree_pinky = 30.0;
+                    double requiredDegree_pinky = 50.0;
                     pinky.setBackgroundColor(Color.BLUE);
                     MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.g_note);
                     if (pinky_reading >= requiredDegree_pinky) {
@@ -1309,7 +1309,7 @@ public class PlayActivity extends Activity{
                 //If connected
                 if(bluetoothConnected)
                 {
-                    /*
+                    
                     new android.app.AlertDialog.Builder(PlayActivity.this)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Success")
@@ -1326,9 +1326,9 @@ public class PlayActivity extends Activity{
                             .setCancelable(false)
                             .show();
 
-                     */
 
-                    Snackbar.make(view,"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT).show();
+
+                    Snackbar.make(findViewById(R.id.PlayActivity),"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT).show();
                 }
                 //Error occurred asdw
                 else
@@ -1352,9 +1352,11 @@ public class PlayActivity extends Activity{
                     Log.d(TAG, "onReceive: Error connecting");
 
                      */
-                    Snackbar snackbar = Snackbar.make(view,"Error Connecting",BaseTransientBottomBar.LENGTH_SHORT);
+                    Log.d(TAG, "onReceive: XDDD");
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.PlayActivity),"Error Connecting",BaseTransientBottomBar.LENGTH_SHORT);
                     View snackbarView = snackbar.getView();
                     snackbarView.setBackgroundColor(Color.RED);
+                    snackbar.show();
                 }
 
 

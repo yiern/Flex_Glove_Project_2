@@ -184,12 +184,12 @@ public class BluetoothDataService extends Service {
 
             if (!mConnectSuccessful)
             {
-                Toast.makeText(getApplicationContext(), "Could not connect to device. Is it a Serial device? Also check if the UUID is correct in the settings", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Could not connect to device. Is it a Serial device? Also check if the UUID is correct in the settings", Toast.LENGTH_LONG).show();
               
             }
             else
             {
-                msg("Connected to device");
+               // msg("Connected to device");
                 mIsBluetoothConnected = true;
                 mReadThread = new ReadInput(); // Kick off input reader
             }
