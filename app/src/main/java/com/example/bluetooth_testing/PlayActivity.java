@@ -416,7 +416,9 @@ public class PlayActivity extends Activity{
     @Override
     public void onBackPressed(){
         finish_game = true;
-            finish();
+        timer.cancel();
+        timer_piano.cancel();
+        finish();
     }
 
     @Override
@@ -509,7 +511,6 @@ public class PlayActivity extends Activity{
                     success = true;
                 }
             }
-
         }
 
 
@@ -627,9 +628,6 @@ public class PlayActivity extends Activity{
                 }
             });
 
-
-
-
         }
         else if(difficulty_level== 4)
         {
@@ -664,7 +662,7 @@ public class PlayActivity extends Activity{
                     thumb.setBackgroundColor(Color.BLUE);
                     MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.c_note);
                     if (thumb_Reading >= requiredDegree)
-                    {          //todo replace index_right reading with thumb_right reading
+                    {
                         timer_flag = 0;
 
                         if(c_flag == 0) {
@@ -672,8 +670,8 @@ public class PlayActivity extends Activity{
                             c_flag=1;
                         }
                         timer_piano.cancel();
-
                         thumb.setBackgroundResource(R.color.C_Block);
+                        //while(thumb_Reading >= requiredDegree)
                         i++;
                         score++;
                         c_flag = 0;
