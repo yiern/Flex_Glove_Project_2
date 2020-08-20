@@ -271,7 +271,7 @@ public class BluetoothManagementActivity extends Activity
 
 
                 }
-                if(device.getName().equals("BT5"))
+                if(device.getName().equals("HC-06"))
                 {
                     right_hand_flag = 1;
                     right_hand_MAC = device;

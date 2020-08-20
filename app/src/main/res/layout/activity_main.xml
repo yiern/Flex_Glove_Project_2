@@ -7,26 +7,28 @@
     android:orientation="vertical"
     tools:context=".BluetoothManagementActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/bt_bt4"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@drawable/playbutton"
-        android:text="Left Hand" />
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="257dp"
+            android:layout_marginTop="53dp"
+            android:background="@drawable/rightbutton"
+            app:layout_constraintTop_toBottomOf="@+id/bt_bt4"
+            tools:layout_editor_absoluteX="0dp" />
 
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="match_parent"
-        android:layout_height="257dp"
-        android:background="@drawable/insturctionbutton"
-        android:text="Right Hand" />
+        <Button
+            android:id="@+id/bt_bt4"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="81dp"
+            android:background="@drawable/leftbutton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>
