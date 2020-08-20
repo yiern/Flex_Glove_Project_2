@@ -675,7 +675,7 @@ public class PlayActivity extends Activity{
                         timer_piano.cancel();
                         thumb.setBackgroundResource(R.color.C_Block);
                         score++;
-                        while(thumb_Reading >= requiredDegree);
+
                         i++;
 
                         c_flag = 0;
@@ -703,7 +703,7 @@ public class PlayActivity extends Activity{
 
                         index.setBackgroundResource(R.color.D_Block);
                         i++;
-                        while(index_reading >= requiredDegree);
+
 
                         score++;
                         d_flag=0;
@@ -732,7 +732,7 @@ public class PlayActivity extends Activity{
 
 
                             i++;
-                        while(middle_reading >= requiredDegree);
+
                             score++;
                             e_flag=0;
 
@@ -758,7 +758,7 @@ public class PlayActivity extends Activity{
 
 
                             i++;
-                        while(ring_reading >= requiredDegree);
+
                             score++;
                             f_flag=0;
 
@@ -785,7 +785,7 @@ public class PlayActivity extends Activity{
 
 
                             i++;
-                        while(pinky_reading >= requiredDegree);
+
                             score++;
                             g_flag=0;
 
