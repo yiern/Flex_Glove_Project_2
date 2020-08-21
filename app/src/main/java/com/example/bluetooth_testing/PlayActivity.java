@@ -1339,6 +1339,7 @@ public class PlayActivity extends Activity{
                         snackbar = Snackbar.make(findViewById(R.id.PianoLayout),"Bluetooth Connected",BaseTransientBottomBar.LENGTH_SHORT);
                     View snackbarview = snackbar.getView();
                     snackbarview.setBackgroundColor(Color.GREEN);
+                    snackbar.setTextColor(Color.BLACK);
                     snackbar.show();
                 }
 
